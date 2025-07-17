@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404 
 from django.http import Http404
 from django.utils.timezone import make_aware
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
-from todo.models import Task
+from todo.models import Task, Comment
 
 # Create your views here.
 def index(request):
@@ -23,13 +23,25 @@ def index(request):
     return render(request, 'todo/index.html', context)
 
 def detail(request, task_id):
-    try:
-        task = Task.objects.get(pk=task_id)
-    except Task.DoesNotExist:
-        raise Http404('Task dose not exist')
+    task = get_object_or_404(Task, pk=task_id) # (1) タスクの取得
 
+    comment_error = None 
+
+    if request.method == 'POST': # (2) POSTリクエストかどうかのチェック
+        comment_text = request.POST.get('comment_text') # (3) コメントテキストの取得
+
+        if comment_text: # (4) コメントが空でないかのバリデーション
+            comment = Comment(task=task, text=comment_text) # (5) Commentオブジェクトの作成
+            comment.save() # (6) データベースへの保存
+            return redirect('detail', task_id=task.id) # (7) リダイレクト
+        else:
+            comment_error = "コメントを入力してください。" 
+
+    comments = task.comments.all().order_by('posted_at')
     context = {
-        'task': task,    
+        'task': task,
+        'comments': comments,
+        'comment_error': comment_error,
     }
     return render(request, 'todo/detail.html', context)
 
@@ -67,3 +79,12 @@ def log(request, task_id):
         'task': task,
     }
     return render(request, 'todo/detail.html', context)
+
+def close(request, task_id):
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+    task.completed = True
+    task.save()
+    return redirect(index)

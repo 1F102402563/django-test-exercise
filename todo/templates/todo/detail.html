@@ -27,10 +27,38 @@
 {% endif %}
     </ul>
 
+    <div class="comment-section">
+        <h2>コメント</h2>
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="comment">
+                    <p>{{ comment.text }}</p>
+                    <small>投稿日時: {{ comment.posted_at|date:"Y年m月d日 H時i分" }}</small>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>まだコメントはありません。</p>
+        {% endif %}
+
+        <h3>コメントを追加</h3>
+        <form method="post">
+            {% csrf_token %} {# Djangoのセキュリティ対策、これは必須です #}
+            
+            {# エラーメッセージがあれば表示 #}
+            {% if comment_error %}
+                <p class="error-message">{{ comment_error }}</p>
+            {% endif %}
+
+            <textarea name="comment_text" rows="4" placeholder="コメントを入力してください..."></textarea><br>
+            <button type="submit">コメントを投稿</button>
+        </form>
+    </div>
+
     <div>
       <a href="{% url 'index' %}">Top</a>
       <a href="{% url 'update' task.id %}">Edit</a>
       <a href="{% url 'delete' task.id %}">Delete</a>
+      <a href="{% url 'close' task.id %}">Close</a>
     </div>
 
   </body>
