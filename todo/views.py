@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.http import Http404
 from django.utils.timezone import make_aware
+from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 from todo.models import Task, Comment
 
@@ -52,6 +53,7 @@ def update(request, task_id):
     if request.method == 'POST':
         task.title = request.POST['title']
         task.due_at = make_aware(parse_datetime(request.POST['due_at']))
+        task.edit_at = timezone.now()
         task.save()
         return redirect(detail, task_id)
 
@@ -67,6 +69,16 @@ def delete(request, task_id):
         raise Http404("Task does not exist")
     task.delete()
     return redirect(index)
+
+def log(request, task_id):
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+    context = {
+        'task': task,
+    }
+    return render(request, 'todo/detail.html', context)
 
 def close(request, task_id):
     try:

@@ -20,6 +20,11 @@
       {% else %}
       <li>Status: Not Completed</li>
       {% endif %}
+{% if task.edit_at %}
+    <li>log: {{ task.edit_at }} (new edit)</li>
+{% else %}
+    <li>No edit logs</li>
+{% endif %}
     </ul>
 
     <div class="comment-section">
