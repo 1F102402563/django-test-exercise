@@ -33,3 +33,12 @@ class Comment(models.Model):
     
     def __str__(self):
         return f"Comment on {self.task.title} by {self.posted_at.strftime('%Y-%m-%d %H:%M')}"
+
+class ChecklistItem(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='checklist_items')
+    text = models.CharField(max_length=200)  # テキスト
+    is_checked = models.BooleanField(default=False)  # チェック状態
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return f"{self.is_checked}: {self.text}"

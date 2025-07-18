@@ -28,6 +28,30 @@
 {% endif %}
     </ul>
 
+    <!--↓↓↓チェックリスト↓↓↓-->
+    <div class="checklist-section">
+    <h2>チェックリスト</h2>
+    {% if checklist_items %}
+        {% for item in checklist_items %}
+            <div class="checklist-item">
+                <!-- 各項目のチェック状態変更フォーム -->
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="toggle_checklist" value="true">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <input type="checkbox" 
+                           name="checked" 
+                           {% if item.is_checked %}checked{% endif %}
+                           onchange="this.form.submit()">
+                    <label>{{ item.text }}</label>
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>まだチェックリスト項目はありません。</p>
+    {% endif %}
+    <!--↑↑↑チェックリスト↑↑↑-->
+
     <div class="comment-section">
         <h2>コメント</h2>
         {% if comments %}
