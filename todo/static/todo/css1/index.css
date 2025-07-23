@@ -1,0 +1,16 @@
+body{
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    list-style-position: inside;
+    padding: 5%;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  width: 100%; 
+}
+h1{
+    color: #3ccec4;
+    border-bottom: 3px, #3ccec4;
+
+}
