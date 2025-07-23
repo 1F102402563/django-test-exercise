@@ -111,3 +111,17 @@ class TodoViewTestCase (TestCase):
         response = client.get('/1/')
 
         self.assertEqual(response.status_code, 404)
+
+    def test_log_get_success(self):
+        task = Task(title='task for log', due_at=timezone.make_aware(datetime(2024, 7, 2)))
+        task.save()
+        client = Client()
+        response = client.get('/{}/'.format(task.pk))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/detail.html')
+        self.assertEqual(response.context['task'], task)
+    
+    def test_log_get_fail(self):
+        client = Client()
+        response = client.get('/9999/log/')
+        self.assertEqual(response.status_code, 404)
