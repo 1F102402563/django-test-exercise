@@ -35,6 +35,27 @@
         <button type="submit">Submit</button>
       </div>
 
+      <!-- ↓↓↓既存チェックリスト項目の管理↓↓↓ -->
+      {% if checklist_items %}
+      <div>
+        <h3>既存のチェックリスト項目</h3>
+        <p>削除したい項目にチェックを入れてください:</p>
+        {% for item in checklist_items %}
+        <div style="margin-bottom: 5px;">
+          <!-- 削除用チェックボックス -->
+          <input type="checkbox" 
+                 name="delete_items" 
+                 value="{{ item.id }}" 
+                 id="delete_{{ item.id }}">
+          <label for="delete_{{ item.id }}">
+            <!-- 項目の現在の状態を表示（削除機能とは独立） -->
+            {% if item.is_checked %}✓{% else %}□{% endif %} {{ item.text }}
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       <!-- ↓↓↓新しいチェックリスト項目の追加↓↓↓ -->
       <div>
         <h3>新しいチェックリスト項目を追加</h3>
