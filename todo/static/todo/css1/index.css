@@ -25,6 +25,48 @@ form {
   text-align: left;
 }
 
+form div {
+  margin-bottom: 20px;
+}
+
+label {
+  color: #18897d;
+  font-size: 1.05em;
+}
+
+input[type="text"], input[type="datetime-local"], select {
+  margin-top: 3px;
+  width: 100%;
+  font-size: 1em;
+  padding: 8px 6px;
+  border-radius: 7px;
+  border: 1px solid #bbeaea;
+  background: #f4fafb;
+  margin-bottom: 5px;
+  transition: border 0.2s;
+}
+
+input[type="text"]:focus, input[type="datetime-local"]:focus, select:focus {
+  border: 1.5px solid #3CCEC4;
+  outline: none;
+}
+
+button[type="submit"] {
+  background: #3CCEC4;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 10px 28px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+  background: #18897d;
+}
+
 a {
   color: #309f96;
   text-decoration: none;
