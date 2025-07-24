@@ -24,3 +24,15 @@ form {
   padding: 30px 36px 18px 36px;
   text-align: left;
 }
+
+a {
+  color: #309f96;
+  text-decoration: none;
+  margin-right: 16px;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #204b48;
+  text-decoration: underline;
+}
