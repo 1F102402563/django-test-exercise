@@ -14,3 +14,13 @@ h1{
     border-bottom: 3px, #3ccec4;
 
 }
+
+form {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(85,160,159,0.15);
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 30px 36px 18px 36px;
+  text-align: left;
+}
